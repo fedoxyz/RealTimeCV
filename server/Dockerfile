@@ -20,6 +20,5 @@ COPY ./app ./app
 # Expose port 5000 for Flask-SocketIO
 EXPOSE 5000
 
-# Command to run the Flask app with SocketIO
-CMD ["conda", "run", "-n", "myenv", "python", "app/main.py"]
+CMD ["conda", "run", "-n", "myenv", "gunicorn", "-k", "eventlet", "-b", "0.0.0.0:5000", "app.main:app"]
 
