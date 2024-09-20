@@ -25,4 +25,4 @@ COPY ./app ./app
 # Expose port 5000 for Flask-SocketIO
 EXPOSE 5000
 
-CMD ["conda", "run", "--no-capture-output", "-n", "myenv", "gunicorn", "--bind", "0.0.0.0:5000", "app.main:app"]
+CMD ["conda", "run", "--no-capture-output", "-n", "myenv", "gunicorn", "--bind", "0.0.0.0:5000", "--worker-class", "eventlet", "app.main:app"]
