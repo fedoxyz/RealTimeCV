@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY environment.yml /tmp/environment.yml
 
 # Install dependencies
-RUN conda env create -f /tmp/environment.yml
+RUN conda env create -f /tmp/environment.yml --verbose
 
 # Ensure conda is in the PATH and make environment active by default
 SHELL ["/bin/bash", "-c"]

@@ -1,17 +1,11 @@
+<script setup>
+import "./assets/main.css"
+</script>
+
 <template>
-  <div id="app">
-    <h1>Real-time Object Detection</h1>
-    <CameraStream />
-  </div>
+  <router-view></router-view>
 </template>
 
-<script>
-import CameraStream from './components/CameraStream.vue'
+<style scoped>
+</style>
 
-export default {
-  name: 'App',
-  components: {
-    CameraStream
-  }
-}
-</script>
