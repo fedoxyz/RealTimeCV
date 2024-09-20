@@ -7,6 +7,11 @@ WORKDIR /usr/src/app
 # Copy the environment.yml file to install dependencies
 COPY environment.yml /tmp/environment.yml
 
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create the conda environment from environment.yml
 RUN conda env create -f /tmp/environment.yml --verbose
 
@@ -20,5 +25,4 @@ COPY ./app ./app
 # Expose port 5000 for Flask-SocketIO
 EXPOSE 5000
 
-CMD ["conda", "run", "-n", "myenv", "gunicorn", "-k", "eventlet", "-b", "0.0.0.0:5000", "app.main:app"]
-
+CMD ["conda", "run", "--no-capture-output", "-n", "myenv", "gunicorn", "--bind", "0.0.0.0:5000", "app.main:app"]
