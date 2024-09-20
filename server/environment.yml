@@ -13,4 +13,4 @@ dependencies:
   - gunicorn
   - pytorch=2.3.0
   - torchvision=0.18.1
-  - eventlet
+  - eventlet=0.33.3
