@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:14 as build-stage
+FROM node:latest
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
 
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=0 /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
