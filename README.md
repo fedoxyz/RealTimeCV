@@ -1,4 +1,4 @@
-#Install
+# Install
 Clone repository and change directory
 ```
 git clone https://github.com/fedoxyz/RealTimeCV
