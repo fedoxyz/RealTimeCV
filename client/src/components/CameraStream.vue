@@ -58,11 +58,10 @@
     socket.on('processed_image', (processedImage) => {
       processedImageSrc.value = 'data:image/jpeg;base64,' + processedImage;
     });
-    console.log("on mounted") 
     if (video.value && canvas.value) {
       console.log("video.value");
       startStream();
-      streamInterval = setInterval(sendImageToServer, 100);  // Adjust interval as needed
+      streamInterval = setInterval(sendImageToServer, 100);  // Adjust interval in ms ?
     }
   });
 

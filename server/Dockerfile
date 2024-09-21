@@ -1,28 +1,23 @@
-# Use Miniconda as the base image
-FROM continuumio/miniconda3
+FROM nvidia/cuda:12.6.1-runtime-ubuntu20.04
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+RUN apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
-# Copy the environment.yml file to install dependencies
-COPY environment.yml /tmp/environment.yml
-
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
+    wget \
     libgl1-mesa-glx \
     libglib2.0-0 \
+    python3.9 \
+    python3.9-dev \
+    python3-pip \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Create the conda environment from environment.yml
-RUN conda env create -f /tmp/environment.yml --verbose
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
-# Ensure conda is in the PATH and activate the environment by default
-SHELL ["/bin/bash", "-c"]
-ENV PATH /opt/conda/envs/myenv/bin:$PATH
-
-# Copy the application code from the app directory
 COPY ./app ./app
 
-# Expose port 5000 for Flask-SocketIO
 EXPOSE 5000
 
-CMD ["conda", "run", "--no-capture-output", "-n", "myenv", "gunicorn", "--bind", "0.0.0.0:5000", "--worker-class", "eventlet", "app.main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--worker-class", "eventlet", "app.main:app"]
